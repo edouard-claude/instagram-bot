@@ -118,7 +118,11 @@ func likeItems(maxLike int, items []inst.Item) {
 			if !isToOld(i) {
 				if l < maxLike {
 					color.Green("💚 Like %v/%v\n", l, maxLike)
-					bot.LikeMedia(ctx, i.ID, false)
+					_, err := bot.LikeMedia(ctx, i.ID, false)
+					if err != nil {
+						color.Red(err.Error())
+						os.Exit(0)
+					}
 					l++
 					sleepTime(15)
 				} else {
