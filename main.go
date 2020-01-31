@@ -65,7 +65,7 @@ func main() {
 	getUserFollowers(user.User, "")
 	rand.Shuffle(len(followers), func(i, j int) { followers[i], followers[j] = followers[j], followers[i] })
 	for k, f := range followers {
-		color.Cyan("🌅Fetch feed from %s %v/%v\n", f.Username, k+1, len(followers))
+		color.Cyan("🌅 Fetch feed from %s %v/%v\n", f.Username, k+1, len(followers))
 		var feed inst.GetUserFeed
 		resp, err = bot.GetUserFeed(ctx, fmt.Sprintf("%v", f.Pk), "")
 		if err != nil {
@@ -75,14 +75,14 @@ func main() {
 		resp.Decode(&feed)
 		likeItems(like, feed.Items)
 	}
-	color.Yellow("❌Skipped %v of %v\n", skipped, len(followers))
-	color.Cyan("✅Like done !\n")
+	color.Yellow("❌ Skipped %v of %v\n", skipped, len(followers))
+	color.Cyan("✅ Like done !\n")
 
 }
 
 func getUserFollowers(u inst.User, maxID string) {
 	if len(followers) == 0 {
-		color.Magenta("👥Fetch %d followers from %s\n", u.FollowerCount, u.Username)
+		color.Magenta("👥 Fetch %d followers from %s\n", u.FollowerCount, u.Username)
 	}
 	var uFollowers inst.GetUserFollowers
 	resp, err := bot.GetUserFollowers(ctx, fmt.Sprintf("%v", u.Pk), fmt.Sprintf("%v", maxID))
@@ -97,10 +97,10 @@ func getUserFollowers(u inst.User, maxID string) {
 			followers = append(followers, uf)
 		}
 	}
-	color.Green("👥Append %v publics followers of %v from %s\n", len(followers), u.FollowerCount, u.Username)
+	color.Green("👥 Append %v publics followers of %v from %s\n", len(followers), u.FollowerCount, u.Username)
 
 	if len(uFollowers.NextMaxID) > 1 {
-		color.Cyan("⏩Paginate next followers from %s\n", u.Username)
+		color.Cyan("⏩ Paginate next followers from %s\n", u.Username)
 		sleepTime(5)
 		getUserFollowers(u, uFollowers.NextMaxID)
 	}
@@ -111,14 +111,14 @@ func likeItems(maxLike int, items []inst.Item) {
 
 	if len(items) == 0 {
 		skipped++
-		color.Yellow("🤷‍♀️Nothing to like skip %v of %v...\n", skipped, len(followers))
+		color.Yellow("🤷‍♀️ Nothing to like skip %v of %v...\n", skipped, len(followers))
 	}
 
 	for _, i := range items {
 		if !i.HasLiked {
 			if !isToOld(i) {
 				if l <= maxLike {
-					color.Green("💚Like %v/%v\n", l, maxLike)
+					color.Green("💚 Like %v/%v\n", l, maxLike)
 					_, err := bot.LikeMedia(ctx, i.ID, false)
 					if err != nil {
 						color.Red(err.Error())
@@ -134,12 +134,12 @@ func likeItems(maxLike int, items []inst.Item) {
 				}
 			} else {
 				skipped++
-				color.Yellow("🧓Item are too old skip %v of %v...\n", skipped, len(followers))
+				color.Yellow("🧓 Item are too old skip %v of %v...\n", skipped, len(followers))
 				break
 			}
 		} else {
 			skipped++
-			color.Yellow("😅Already liked skip %v of %v...\n", skipped, len(followers))
+			color.Yellow("😅 Already liked skip %v of %v...\n", skipped, len(followers))
 			break
 		}
 	}
@@ -148,7 +148,7 @@ func likeItems(maxLike int, items []inst.Item) {
 func sleepTime(max int) {
 	min := 1
 	ran := rand.Intn(max-min) + min
-	color.Magenta("😴Sleep %vsec...\n", ran)
+	color.Magenta("😴 Sleep %vsec...\n", ran)
 	time.Sleep(time.Duration(int64(ran)) * time.Second)
 }
 
