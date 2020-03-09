@@ -10,7 +10,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/winterssy/instabot"
-	"madara.io/test/insta/inst"
+	"github.com/edouard-claude/instagram-bot/inst"
 )
 
 var (
