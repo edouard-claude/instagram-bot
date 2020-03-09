@@ -1,4 +1,4 @@
-module madara.io/test/insta
+module github.com/edouard-claude/instagram-bot
 
 go 1.13
 
